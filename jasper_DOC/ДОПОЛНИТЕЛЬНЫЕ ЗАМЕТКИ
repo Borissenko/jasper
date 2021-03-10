@@ -1,0 +1,64 @@
+ДОПОЛНИТЕЛЬНЫЕ ЗАМЕТКИ
+
+
+# Теги и параметры.
+http://jasperreports.sourceforge.net/schema.reference.html#textField   (!)
+
+
+
+
+# Типы переменных
+$V{PAGE_COUNT} - указывает на номер строки на странице.
+$P{FRAME_MODE} - моя произвольная переменная в группе "Parameters".
+$F{additional_info_desc}
+
+
+
+
+# Резиновость
+У нижележащего фрейма надо поставить PositionType - Float или FixToBottom, но не fixToTop(!).
+
+
+
+
+
+
+# РАЗРЫВ на новую страницу
+
+
+          <break>
+               <reportElement uuid="*uuid here*" x="0" y="28" width="100" height="1"/>
+          </break>
+     </band>
+</detail>
+
+
+
+или
+<summary>
+    <band height="68">
+        <textField>
+            <reportElement x="0" y="0" width="100" height="20" uuid="73b59f4e-2a74-48ec-b152-ca705bb98fd8"/>
+            <textFieldExpression><![CDATA["Summary page 1"]]></textFieldExpression>
+        </textField>
+
+        <break>
+            <reportElement x="0" y="20" width="100" height="1" uuid="3aa84342-4219-47c2-9724-96284afcd9b3"/>
+        </break>
+
+        <textField>
+            <reportElement x="0" y="26" width="100" height="20" uuid="0306db4f-ba7f-4ff5-ac18-a9e5d42cdbda"/>
+            <textFieldExpression><![CDATA["Summary page 2"]]></textFieldExpression>
+        </textField>
+    </band>
+</summary>
+
+Примечание: если summary-band должен начинаться на новой странице, он управляется атрибутом isSummaryNewPage в теге <jasperReport>
+isSummaryNewPage="true" start summary band на новой странице
+
+
+
+
+
+
+

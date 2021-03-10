@@ -1,0 +1,65 @@
+[ERROR] Could not compile esbkts.jrxml because org.xml.sax.SAXParseException; lineNumber: 105; columnNumber: 42; cvc-complex-type.3.2.2: Attribute 'textAdjust' is not allowed to appear in element 'textField'.
+net.sf.jasperreports.engine.JRException: org.xml.sax.SAXParseException; lineNumber: 105; columnNumber: 42; cvc-complex-type.3.2.2: Attribute 'textAdjust' is not allowed to appear in element 'textField'.
+
+
+В файле все  <textField textAdjust="StretchHeight"> надо заменить на <textField isStretchWithOverflow="true">.
+Этот атрибут тега обеспечивает РЕЗИНОВОСТЬ БЛОКА при очень большом обеме текста в нем, вводимом через переменную.
+
+
+было и работало \ текущее, современное, но не работает
+
+<textField isStretchWithOverflow="true">      \      <textField textAdjust="StretchHeight">
+
+было
+			<textField isStretchWithOverflow="true">    //<==
+				<reportElement x="200" y="187" width="200" height="14" uuid="c42f9e7e-a2c3-418e-9544-6315f339fac4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[$F{otts_num} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(( $P{FRAME_MODE}) ? "№ " : "")+ "<b><u>" + $F{otts_num} + "</u></b>"]]></textFieldExpression>
+			</textField>
+
+
+\
+текущее, не работает
+			<textField textAdjust="StretchHeight">
+				<reportElement x="197" y="187" width="200" height="14" uuid="c42f9e7e-a2c3-418e-9544-6315f339fac4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[$F{otts_num} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(( $P{FRAME_MODE}) ? "№ " : "")+ "<b><u>" + $F{otts_num} + "</u></b>"]]></textFieldExpression>
+			</textField>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

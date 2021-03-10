@@ -1,0 +1,17 @@
+# Запуск JASPER_Studio
+
+Без инстилляции,
+просто щелчком по иконке  файла "Jaspersoft Studio", расположенного в архиве исходников.
+
+bild - не забывать делать.
+
+
+
+# Команда для запуска плагина
+java -jar esbkts2pdf.jar -jp /home/borisenko/Desktop/jasper/target/jasperIn/ -o /home/borisenko/Desktop/jasper/target/jasperOut/out.pdf
+
+
+
+
+
+# JasperReports 6.16.0 - для

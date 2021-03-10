@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="esbkts_attributes" pageWidth="527" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="527" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="64b8a9d7-d625-4f5b-8866-0d80cef83230">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="p_sort_order" class="java.lang.Long"/>
+	<field name="p_attr_name" class="java.lang.String"/>
+	<field name="p_attr_value" class="java.lang.String"/>
+	<field name="p_is_attr_present" class="java.lang.Boolean"/>
+	<field name="upper_delim" class="java.lang.Boolean"/>
+	<field name="lower_delim" class="java.lang.Boolean"/>
+	<field name="case_mode" class="java.lang.String"/>
+	<pageHeader>
+		<band height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="0" y="0" width="527" height="1" uuid="6ae6e07b-bbfa-417e-b4e8-827abd65add3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1 && $F{upper_delim} !=null && !$F{upper_delim}]]></printWhenExpression>
+				</reportElement>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="16" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="162" y="0" width="1" height="16" uuid="ec02a836-ff90-4594-8918-dce11b4d8d5c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="527" height="1" uuid="1857ea39-7cae-464f-9f19-6a6ded1dfd73">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<printWhenExpression><![CDATA[$F{upper_delim} ==null || $F{upper_delim}]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField textAdjust="StretchHeight" evaluationTime="Master">
+				<reportElement stretchType="ContainerHeight" x="10" y="1" width="270" height="14" uuid="24dfe48f-75f5-4536-8fa2-4269b9f2b5b4">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ $V{MASTER_CURRENT_PAGE}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" evaluationTime="Master">
+				<reportElement x="172" y="1" width="348" height="14" uuid="975ed5f3-21e4-4612-985e-a48a4f8adadd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="1" height="16" uuid="fef60038-92e0-4122-9c83-1a4a754ef82e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="526" y="0" width="1" height="16" uuid="5a1aca70-4f17-4996-89f0-a4750f524cbd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="0" y="0" width="527" height="1" uuid="9c49e7f9-7fc7-462c-a375-114ec65e6292">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="0" y="0" width="527" height="1" uuid="a1885048-afcc-4b4c-bb8a-9bdb010f5d54">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<printWhenExpression><![CDATA[$F{lower_delim} == null || $F{lower_delim}]]></printWhenExpression>
+				</reportElement>
+			</line>
+		</band>
+	</lastPageFooter>
+</jasperReport>

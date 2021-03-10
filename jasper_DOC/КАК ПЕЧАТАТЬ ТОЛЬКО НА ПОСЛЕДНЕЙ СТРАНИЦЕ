@@ -1,0 +1,193 @@
+
+ КАК ПЕЧАТАТЬ ТОЛЬКО НА определенной (ПОСЛЕДНЕЙ) СТРАНИЦЕ
+
+
+#1. Номер ТЕКУЩЕЙ страницы ИЛИ ОБЩЕЕ колличество страниц via $V{PAGE_NUMBER}:
+
+evaluationTime - это атрибут тега textField, но не параметр для $V{PAGE_NUMBER}.
+> current page - “Now”,    <== в PrintExpression срабатывает по этому сценарию. т.к. Default: Now.
+> total page - “Report”
+
+При Now - $V{PAGE_NUMBER} будет указывать на total page. Now- это значение evaluationTime по-умолчанию.
+При Report - $V{PAGE_NUMBER} будет указывать на total page.
+
+			<textField>
+				<reportElement x="18" y="29" width="100" height="30" uuid="6fea3d62-53dd-489c-ace1-593129c12946"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+
+			<textField evaluationTime="Report">
+				<reportElement x="118" y="29" width="100" height="30" uuid="f4d0247a-2463-4b8c-9030-c23de5b84a5b"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+
+
+
+
+
+#2. Маркеруем тег.
+//http://junjun-java.blogspot.com/2015/03/jasper-reports-detecting-last-page.html
+Маркеруем тег. 
+Запрашиваем маркер при проходе в каждой странице,
+он дает не null, а спец_значение, прописанное в нем, при проходе только по данному листу.
+
+
+
+Step 1 : have a text field on "Summary" section (на странице, которую мы желаем пометить), and put 
+
+$P{REPORT_PARAMETERS_MAP}.put("isLastPage",Boolean.TRUE)  //<для новых версий
+($P{REPORT_PARAMETER.MAP}.put("isLastPage",Boolean.TRUE)  //для старых версий)
+
+$P{REPORT_PARAMETERS_MAP}.put("isLastPage", true)  //<для новых версий . false, Но присудить строку - не удается.
+
+Please note that above statement would return null(!) , as "isLastPage" does not exists in the map (REPORT_PARAMETER.MAP)
+
+
+
+Step 2 : use в рецепторе
+$P{REPORT_PARAMETERS_MAP}.get("isLastPage")   //<для новых версий
+($P{REPORT_PARAMETER.MAP}.get("isLastPage") //для старых версий)
+or
+$P{REPORT_PARAMETERS_MAP}.get("isLastPage") == null // даст true на всех страницах, кроме последней.
+
+as expression , екгу
+if the value is null then it is not last page.
+Когда текущая страница будет маркерной, то "$P{REPORT_PARAMETERS_MAP}.get("isLastPage")" выдает не true/false, а спец true-объект или false-объект.
+Поэтому условие для PrintExpretion - работать будет, но знак !(отрицание) здесь не поставишь.
+
+
+
+Step 3 :
+Text field рецептора mast have "EvolutionTime - Page или Master"(!).
+
+"EvolutionTime у Text field, где задается значение, имеет значение  - Report или Master"(!).
+
+
+
+
+Please find sample code below and it is tested with jasperreports 6.0.3 , java 7: 
+https://github.com/junjun-dachi/sample-jasperreports 
+
+Примечания:
+new Boolean($P{REPORT_PARAMETERS_MAP}.get("isLastPage")) - no work
+
+
+
+
+
+
+
+#3. Получаем номер текущей страницы и общее количетсво страниц via MASTER.
+
+        <textField evaluationTime="Master">
+          <reportElement x="419" y="16" width="100" height="30" uuid="f12e99b1-bb1c-483b-af90-1eb8dec49c0d"/>
+          <textFieldExpression><![CDATA[$V{MASTER_CURRENT_PAGE} + "/" + $V{MASTER_TOTAL_PAGES}]]></textFieldExpression>
+        </textField>
+Т.е.
+$V{MASTER_CURRENT_PAGE} + "/" + $V{MASTER_TOTAL_PAGES}
++ evaluationTime="Master"(!)
+
+В PrintWithExpression - он не работает, 
+но РАБОТАЕТ при вставлении текста или кода картинки
+($V{MASTER_CURRENT_PAGE} == $V{MASTER_TOTAL_PAGES}) ? ( new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64("iVBORSAm1DYOHmzh...dAAAAABJRU5ErkJggg==".getBytes()))) : null
+
+
+
+
+
+
+
+# Комбинация  (срабатывает).
+$P{REPORT_PARAMETERS_MAP}.put("isLastPage", $V{MASTER_CURRENT_PAGE} != $V{MASTER_TOTAL_PAGES}) 
+"EvolutionTime - Master"(!).
+
+
+
+
+
+
+
+#4. Создаем свою переменную, отталкиваясь от  $V{PAGE_NUMBER}
+//https://ask.osify.com/qa/11187
+- NO WORK
+
+	<image evaluationTime="Auto">   //evaluationTime="Auto"
+	   <reportElement style="defaultStyle" x="51" y="147" width="34" height="34" isRemoveLineWhenBlank="true" uuid="5bd0d8bf-53df-4888-ad70-d12832334b97">     //isRemoveLineWhenBlank="true"
+	      <printWhenExpression><![CDATA[$V{CURRENT_PAGE}.equals($V{PAGE_NUMBER})]]></printWhenExpression>
+	   </reportElement>
+
+           <imageExpression>$V{currentPage}.equals($V{PAGE_NUMBER}) ? your_image : null</imageExpression>
+	</image>
+
+
+
+"Text Field = " + $V{TOTAL_PAGES} + "PAGE_NUMBER =>" + $V{PAGE_NUMBER}
+
+// PAGE_NUMBER
+
+$V{PAGE_NUMBER} дает различные значения в зависимости от атрибута ТЭГА 
+=EvolutionTime=:
+
+> current page - “Now”,    <== в PrintExpression срабатывает по этому сценарию. т.к. Default: Now.
+> total page - “Report”
+
+Create a variable for total page =$V{TOTAL_PAGES}=:    //выдало - 1.
+Name: TOTAL_PAGES
+Variable class: Integer
+Calculation: highest
+Reset type: report            //None - выдало 2, на 1 меньше, чем реальное тотал.
+Increment type: page
+Variable expression: $V{PAGE_NUMBER}
+
+Create a variable to identify current page number =$V{CURRENT_PAGE}=:
+Variable name: CURRENT_PAGE
+Value Class Name: java.lang.Integer (Integer)
+Calculation: No Calculation Function
+Expression: $V{PAGE_NUMBER}
+Initial Value Express: Blank
+Increment type: Page
+Reset type: Page
+
+On textfield’s appearance, tick "Remove Line When Blank".
+
+When using with Print Expression, it won’t do pre-calculate
+
+
+
+
+#5.  ..ЧЕРНОВИК
+"Text Field = " + $V{TOTAL_PAGES} + "PAGE_NUMBER =>" + $V{PAGE_NUMBER}
+
+
+
+
+
+#6. Схожие переменные
+
+$V{PAGE_COUNT} - указывает на номер строки на странице.
+$P{FRAME_MODE} - моя произвольная переменная в группе "Parameters".
+$F{additional_info_desc}
+
+
+
+#7. 
+Create a variable $V{REPORT_PAGE} with properties as below.
+
+Variable Class : Integer
+Calculation : Nothing
+Reset Type : None
+Increment Type : Page 
+V.Expression : $V{PAGE_NUMBER}
+
+Now add a text item to your footer with expression as below.
+"Page "+$V{REPORT_PAGE} +" of " +$V{PAGE_NUMBER}
+
+and SET Evaluation Time to Auto
+
+
+#8. Всякое
+https://ask.osify.com/qa/11187  - НОМЕР СТРАНИЦЫ
+
+
